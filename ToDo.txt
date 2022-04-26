@@ -1,0 +1,14 @@
+*****************************************ToDo***********************************
+*********
+Authentication
+
+-create Login UI
+-Set up Login backend with firebase authentication
+-create Signup UI
+-Set up Signup backend with firebase authentication
+-Set up login with google
+-Set up login
+
+*********
+
+****************************************Notes**********************************

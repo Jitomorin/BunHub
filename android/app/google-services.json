@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1083143826965",
+    "project_id": "bun-hub",
+    "storage_bucket": "bun-hub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083143826965:android:22b9d4b33893a02b20e81c",
+        "android_client_info": {
+          "package_name": "com.example.bunhub_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1083143826965-8qhdk243pc6doei03vetk340398qfdin.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFG68fS2Crn8iQjzpe8NkGM0adE4y0eAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1083143826965-8qhdk243pc6doei03vetk340398qfdin.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
