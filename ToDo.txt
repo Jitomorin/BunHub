@@ -10,5 +10,8 @@ Authentication
 -Set up login
 
 *********
+*********
+Not So Urgent
 
+-fix bunhub logo animaton
 ****************************************Notes**********************************

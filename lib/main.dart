@@ -2,10 +2,14 @@ import 'package:bunhub_app/screens/home_screen.dart';
 import 'package:bunhub_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'providers/user_provider.dart';
+import 'screens/login_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  //for mobile
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -25,7 +29,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'BunHub',
           theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: mainC),
-          home: const HomeScreen()),
+          home: const LoginScreen()),
     );
   }
 }
