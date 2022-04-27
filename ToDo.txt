@@ -7,11 +7,11 @@ Authentication
 -create Signup UI
 -Set up Signup backend with firebase authentication
 -Set up login with google
--Set up login
 
 *********
+
 *********
 Not So Urgent
 
--fix bunhub logo animaton
+-fix bunhub logo animaton(make it more smooth)
 ****************************************Notes**********************************

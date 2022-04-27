@@ -186,12 +186,15 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _Login() async {
-    _isLoading = true;
-    setState(() {});
-    await AuthenticationMeth()
-        .signIn(emailController.text, passwordController.text, context);
-    _isLoading = false;
-    setState(() {});
+    setState(() {
+      _isLoading = true;
+    });
+    await AuthenticationMeth().signIn(emailController.text.replaceAll(' ', ''),
+        passwordController.text.replaceAll(' ', ''), context);
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   Widget googleSignInButton() {

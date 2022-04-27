@@ -94,7 +94,7 @@ class AuthenticationMeth {
     return modelUser.UserModel.fromSnapShot(snap);
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
     await _firebaseAuth.signOut();
   }
 }
