@@ -15,7 +15,7 @@ class StorageMeth {
     Reference ref =
         _storage.ref().child(childName).child(_auth.currentUser!.uid);
     if (isPost) {
-      String uniqueID = Uuid().v1();
+      String uniqueID = const Uuid().v1();
       ref = ref.child(uniqueID);
     } else {}
 

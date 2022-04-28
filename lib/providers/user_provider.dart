@@ -10,7 +10,9 @@ class UserProv extends ChangeNotifier {
   Future<void> reloadUser() async {
     UserModel? user = await _authMeth.getUserDetails();
     _user = user;
+
     notifyListeners();
+
     //adding listener to _user variable
   }
 

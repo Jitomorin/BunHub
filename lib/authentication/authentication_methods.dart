@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +92,7 @@ class AuthenticationMeth {
     User currentUser = _firebaseAuth.currentUser!;
     DocumentSnapshot snap =
         await _firestore.collection('users').doc(currentUser.uid).get();
-
+    print(modelUser.UserModel.fromSnapShot(snap));
     return modelUser.UserModel.fromSnapShot(snap);
   }
 

@@ -1,5 +1,10 @@
-import 'package:flutter/material.dart';
+import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:line_icons/line_icons.dart';
+
+import '../authentication/authentication_methods.dart';
 import '../resources/bunhub_logo_animation.dart';
 import '../utilities/utilities.dart';
 import '../widgets/text_field.dart';
@@ -12,14 +17,55 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final _isLoading = false;
+  bool _isLoading = false;
+  bool _hidePassword = true;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final usernameController = TextEditingController();
+  Uint8List? _image;
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    usernameController.dispose();
+  }
+
+  void chooseImage() async {
+    Uint8List image = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
+  }
+
+  void _signUp() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await AuthenticationMeth().signUp(
+      emailController.text.replaceAll(' ', ''),
+      passwordController.text.replaceAll(' ', ''),
+      usernameController.text.replaceAll(' ', ''),
+      context,
+      _image,
+    );
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void _togglevisibility() {
+    setState(() {
+      _hidePassword = !_hidePassword;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Column(children: [
+      body: ListView(children: [
         Flexible(child: Container(), flex: 2),
         /* Row(
           children: const [
@@ -36,9 +82,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ],
         ), */
         const Padding(
-          padding: EdgeInsets.only(left: 20, top: 40),
+          padding: EdgeInsets.only(
+            left: 20,
+            top: 40,
+            bottom: 50,
+          ),
           child: Text(
-            'Welcome back!',
+            'Create an account',
             style: TextStyle(
                 fontSize: 24,
                 /* color: BlackCoffee, */
@@ -48,26 +98,75 @@ class _SignUpScreenState extends State<SignUpScreen> {
         /* const SizedBox(
           height: 20,
         ), */
-        SizedBox(height: 200, width: 200, child: Bunhublogoanimation()),
+        /* SizedBox(height: 150, width: 200, child: Bunhublogoanimation()), */
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            _image != null
+                ? CircleAvatar(
+                    radius: 64,
+                    backgroundImage: MemoryImage(_image!),
+                    backgroundColor: Colors.red,
+                  )
+                : const CircleAvatar(
+                    radius: 64,
+                    backgroundImage: NetworkImage(defaultProfilePic),
+                    backgroundColor: Colors.red,
+                  ),
+            Positioned(
+              bottom: -10,
+              left: 203,
+              child: IconButton(
+                onPressed: chooseImage,
+                icon: const Icon(Icons.add_a_photo),
+              ),
+            )
+          ],
+        ),
         Padding(
-            padding: const EdgeInsets.only(right: 30, left: 30),
+            padding: const EdgeInsets.only(top: 40, right: 30, left: 30),
             child: TextFieldInput(
-                type: TextInputType.emailAddress,
-                controller: emailController,
-                text: "Enter email")),
+                hidePassword: false,
+                type: TextInputType.text,
+                controller: usernameController,
+                text: "Username")),
         Padding(
             padding: const EdgeInsets.only(top: 50, right: 30, left: 30),
             child: TextFieldInput(
-                hidePassword: true,
                 type: TextInputType.emailAddress,
                 controller: emailController,
-                text: "Enter password")),
+                text: "Email")),
+        Padding(
+            padding: const EdgeInsets.only(top: 50, right: 30, left: 30),
+            child: TextField(
+                controller: passwordController,
+                obscureText: _hidePassword,
+                decoration: InputDecoration(
+                    suffixIcon: GestureDetector(
+                        onTap: () {
+                          _togglevisibility();
+                        },
+                        child: _hidePassword
+                            ? const Icon(LineIcons.eyeSlash, color: actionC)
+                            : const Icon(LineIcons.eye, color: actionC)),
+                    filled: true,
+                    hintText: 'Password',
+                    hintStyle: const TextStyle(
+                      fontSize: 16,
+                    ),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      borderSide: BorderSide
+                          .none, /* borderRadius: BorderRadius.circular(25) */
+                    )))),
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
             child: InkWell(
-              onTap: () {},
+              onTap: _signUp,
               child: Container(
-                  color: secondaryC,
+                  decoration: const BoxDecoration(
+                      color: secondaryC,
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
                   height: 46,
                   width: double.infinity,
                   alignment: Alignment.center,
@@ -79,7 +178,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         )
                       : const Text(
                           'Log in',
-                          style: TextStyle(fontSize: 18, color: secondaryCAlt),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              color: secondaryCAlt),
                         )),
             )),
         Padding(
@@ -87,21 +189,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Don\'t have an account?',
+              const Text(
+                'Already have an account?',
                 style: TextStyle(/* color: BlackChocolate */),
               ),
               TextButton(
                   onPressed: () {
-                    /* Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignupScreen()),
-                    ); */
+                    Navigator.pop(context);
                   },
-                  child: Text(
-                    'Create new one',
-                    /* style: TextStyle(color: Colors.white), */
+                  child: const Text(
+                    'Log in',
+                    style: TextStyle(
+                      color: actionC,
+                    ),
                   ))
             ],
           ),

@@ -2,11 +2,14 @@
 *********
 Authentication
 
--create Login UI
--Set up Login backend with firebase authentication
--create Signup UI
--Set up Signup backend with firebase authentication
+-Add user login loading animation
+-Add user sign up loading animation
 -Set up login with google
+-Design home screen UI
+-Add image posing functionality
+-Add video posting functionality
+-Add Like and Commen functionality for posts 
+
 
 *********
 
@@ -14,4 +17,9 @@ Authentication
 Not So Urgent
 
 -fix bunhub logo animaton(make it more smooth)
+****************************************Completed**********************************
+-create Login UI
+-Set up Login backend with firebase authentication
+-create Signup UI
+-Set up Signup backend with firebase authentication
 ****************************************Notes**********************************

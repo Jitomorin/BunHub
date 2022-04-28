@@ -1,5 +1,6 @@
 import 'package:bunhub_app/screens/messages_screen.dart';
 import 'package:bunhub_app/screens/search_screen.dart';
+import 'package:bunhub_app/utilities/utilities.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -17,7 +18,7 @@ class MobileLayout extends StatefulWidget {
 class _MobileLayoutState extends State<MobileLayout> {
   var _currentIndex = 0;
   var _page = 0;
-  late PageController PC;
+  late PageController pageController;
 
   List<Widget> screenItems = [
     const HomeScreen(),
@@ -28,17 +29,17 @@ class _MobileLayoutState extends State<MobileLayout> {
   @override
   void initState() {
     super.initState();
-    PC = PageController();
+    pageController = PageController();
   }
 
   @override
   void dispose() {
     super.dispose();
-    PC.dispose();
+    pageController.dispose();
   }
 
   onNavTap(int page) {
-    PC.jumpToPage(page);
+    pageController.jumpToPage(page);
   }
 
   @override
@@ -49,9 +50,12 @@ class _MobileLayoutState extends State<MobileLayout> {
       body: PageView(
           onPageChanged: onPageChanged,
           physics: const NeverScrollableScrollPhysics(),
-          controller: PC,
+          controller: pageController,
           children: screenItems),
       bottomNavigationBar: FlashyTabBar(
+        height: 70,
+        backgroundColor: mainC,
+        iconSize: 25,
         selectedIndex: _currentIndex,
         showElevation: true,
         onItemSelected: (index) => setState(() {
@@ -60,20 +64,35 @@ class _MobileLayoutState extends State<MobileLayout> {
         }),
         items: [
           FlashyTabBarItem(
-            icon: const Icon(LineIcons.home),
-            title: const Text('Home'),
+            activeColor: actionC,
+            icon: const Icon(LineIcons.home, color: secondaryCdark),
+            title: const Text(
+              'Home',
+              style: TextStyle(color: secondaryC),
+            ),
           ),
           FlashyTabBarItem(
-            icon: const Icon(LineIcons.search),
-            title: const Text('Search'),
+            activeColor: actionC,
+            icon: const Icon(LineIcons.search, color: secondaryCdark),
+            title: const Text(
+              'Search',
+              style: TextStyle(color: secondaryC),
+            ),
           ),
           FlashyTabBarItem(
-            icon: const Icon(LineIcons.inbox),
-            title: const Text('Messages'),
+            activeColor: actionC,
+            icon: const Icon(LineIcons.inbox, color: secondaryCdark),
+            title: const Text(
+              'Messages',
+              style: TextStyle(color: secondaryC),
+            ),
           ),
           FlashyTabBarItem(
-            icon: const Icon(LineIcons.user),
-            title: const Text('Profile'),
+            icon: const Icon(LineIcons.user, color: secondaryCdark),
+            title: const Text(
+              'Profile',
+              style: TextStyle(color: secondaryC),
+            ),
           ),
         ],
       ),

@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
         /* const SizedBox(
           height: 20,
         ), */
-        SizedBox(height: 200, width: 200, child: Bunhublogoanimation()),
+        SizedBox(height: 150, width: 200, child: Bunhublogoanimation()),
         Padding(
             padding: const EdgeInsets.only(right: 30, left: 30),
             child: TextFieldInput(
@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
             left: 10,
             right: 10,
             bottom: 0,
-            top: 50,
+            top: 100,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
