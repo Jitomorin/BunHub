@@ -1,16 +1,19 @@
+import 'package:bunhub_app/utilities/utilities.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
   final String userName;
   final String userID;
   final String email;
+  final String bio;
   final List followers;
   final List following;
   final String imageURL;
 
   const UserModel({
+    this.bio = '',
     required this.userName,
-    required this.imageURL,
+    this.imageURL = defaultProfilePic,
     required this.userID,
     required this.email,
     required this.followers,
@@ -23,7 +26,8 @@ class UserModel {
         'email': email,
         'followers': followers,
         'following': following,
-        'imageURL': imageURL
+        'imageURL': imageURL,
+        'bio': bio,
       };
 
   static UserModel? fromSnapShot(DocumentSnapshot snap) {
@@ -32,11 +36,13 @@ class UserModel {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return UserModel(
-        userName: snapshot['username'],
-        userID: snapshot['userID'],
-        email: snapshot['email'],
-        followers: snapshot['followers'],
-        following: snapshot['following'],
-        imageURL: snapshot['imageURL']);
+      userName: snapshot['username'],
+      userID: snapshot['userID'],
+      email: snapshot['email'],
+      followers: snapshot['followers'],
+      following: snapshot['following'],
+      imageURL: snapshot['imageURL'],
+      bio: snapshot['bio'],
+    );
   }
 }
