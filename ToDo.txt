@@ -15,7 +15,7 @@ Authentication
 
 *********
 Not So Urgent
-
+-make user sign in process procedural(with onboarding screens)
 -fix bunhub logo animaton(make it more smooth)
 ****************************************Completed**********************************
 -create Login UI

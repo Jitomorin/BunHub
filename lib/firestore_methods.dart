@@ -1,13 +1,20 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:bunhub_app/models/post_model.dart';
+import 'package:bunhub_app/providers/user_provider.dart';
 import 'package:bunhub_app/storage/storage_methods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreMeth {
   final _firestore = FirebaseFirestore.instance;
+
+  /* Future<String> checkUsernameAvailability(String givenUsername,String uuid)async{
+    await _firestore.collection('users').doc(uuid).
+  } */
 
   Future<void> likeComment(
       String userUID, String postUID, String commentUID, List likes) async {
@@ -36,16 +43,15 @@ class FirestoreMeth {
     }
   }
 
-  Future<void> postImage(String caption, Uint8List file, String profilePicURL,
-      String username) async {
+  /* Future<String> checkUsernameAvailability(String username){
+    
+  } */
+
+  Future<void> post(
+      String caption, String profilePicURL, String username) async {
     try {
-      //random unique ID based on time lne of code is called
       String postUID = const Uuid().v1();
 
-      String profilePicURL =
-          await StorageMeth().storeImage('posts', file, true);
-
-      //post model to hold data
       PostModel post = PostModel(
           likes: [],
           caption: caption,
@@ -53,7 +59,43 @@ class FirestoreMeth {
           profilePicURL: profilePicURL,
           username: username,
           datePublished: DateTime.now());
+
+      _firestore.collection('posts').doc(postUID).set(post.toJson());
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> postWithImage(
+    String caption,
+    Uint8List file,
+    String profilePicURL,
+    String username,
+  ) async {
+    try {
+      //random unique ID based on time lne of code is called
+      String postUID = const Uuid().v1();
+
+      String photoURL = await StorageMeth().storeImage('posts', file, true);
+
+      //post model to hold data
+      PostModel post = PostModel(
+          imagePostURL: photoURL,
+          likes: [],
+          caption: caption,
+          postUID: postUID,
+          profilePicURL: profilePicURL,
+          username: username,
+          datePublished: DateTime.now());
       _firestore.collection('post').doc(postUID).set(post.toJson());
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> deletePost(String postID) async {
+    try {
+      await _firestore.collection('posts').doc(postID).delete();
     } catch (e) {
       print(e);
     }
@@ -83,6 +125,22 @@ class FirestoreMeth {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> likePost(String postID, String userID, List likes) async {
+    try {
+      if (likes.contains(userID)) {
+        await _firestore.collection('posts').doc(postID).update({
+          'likes': FieldValue.arrayRemove([userID]),
+        });
+      } else {
+        await _firestore.collection('posts').doc(postID).update({
+          'likes': FieldValue.arrayUnion([userID]),
+        });
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

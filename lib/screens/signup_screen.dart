@@ -3,10 +3,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_icons/line_icons.dart';
-
 import '../authentication/authentication_methods.dart';
 import '../resources/bunhub_logo_animation.dart';
 import '../utilities/utilities.dart';
+import 'package:username_generator/username_generator.dart';
 import '../widgets/text_field.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -55,6 +55,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
+  void _generateUsername() {
+    setState(() {
+      usernameController.clear();
+      var usernameGenerator = UsernameGenerator();
+      usernameGenerator.separator = '';
+    });
+  }
+
   void _togglevisibility() {
     setState(() {
       _hidePassword = !_hidePassword;
@@ -64,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: ListView(children: [
         Flexible(child: Container(), flex: 2),
         /* Row(
@@ -99,7 +107,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           height: 20,
         ), */
         /* SizedBox(height: 150, width: 200, child: Bunhublogoanimation()), */
-        Stack(
+
+        //upload profile picture secton
+        /* Stack(
           alignment: Alignment.center,
           children: [
             _image != null
@@ -122,22 +132,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             )
           ],
-        ),
+        ), */
         Padding(
-            padding: const EdgeInsets.only(top: 40, right: 30, left: 30),
-            child: TextFieldInput(
-                hidePassword: false,
-                type: TextInputType.text,
+            padding: const EdgeInsets.only(right: 30, left: 30),
+            child: TextField(
                 controller: usernameController,
-                text: "Username")),
+                obscureText: false,
+                decoration: InputDecoration(
+                    suffixIcon: GestureDetector(
+                        onTap: () {
+                          _generateUsername();
+                        },
+                        child: const Icon(LineIcons.random, color: actionC)),
+                    filled: true,
+                    hintText: 'Username',
+                    hintStyle: const TextStyle(
+                      fontSize: 16,
+                    ),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      borderSide: BorderSide
+                          .none, /* borderRadius: BorderRadius.circular(25) */
+                    )))),
         Padding(
-            padding: const EdgeInsets.only(top: 50, right: 30, left: 30),
+            padding: const EdgeInsets.only(top: 35, right: 30, left: 30),
             child: TextFieldInput(
                 type: TextInputType.emailAddress,
                 controller: emailController,
                 text: "Email")),
         Padding(
-            padding: const EdgeInsets.only(top: 50, right: 30, left: 30),
+            padding: const EdgeInsets.only(top: 35, right: 30, left: 30),
             child: TextField(
                 controller: passwordController,
                 obscureText: _hidePassword,
@@ -160,7 +184,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           .none, /* borderRadius: BorderRadius.circular(25) */
                     )))),
         Padding(
-            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+            padding: const EdgeInsets.only(top: 35, right: 30, left: 30),
             child: InkWell(
               onTap: _signUp,
               child: Container(
@@ -177,7 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         )
                       : const Text(
-                          'Log in',
+                          'Continue',
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 18,
@@ -185,7 +209,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         )),
             )),
         Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 40),
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: ListView(children: [
         Flexible(child: Container(), flex: 2),
         /* Row(
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ), */
         const Padding(
-          padding: EdgeInsets.only(left: 20, top: 40),
+          padding: EdgeInsets.only(left: 20, top: 20),
           child: Text(
             'Welcome back!',
             style: TextStyle(
@@ -66,7 +66,11 @@ class _LoginScreenState extends State<LoginScreen> {
         /* const SizedBox(
           height: 20,
         ), */
-        SizedBox(height: 150, width: 200, child: Bunhublogoanimation()),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 35.0),
+          child:
+              SizedBox(height: 150, width: 200, child: Bunhublogoanimation()),
+        ),
         Padding(
             padding: const EdgeInsets.only(right: 30, left: 30),
             child: TextFieldInput(
@@ -76,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
               /* onSubmit: _Login, */
             )),
         Padding(
-            padding: const EdgeInsets.only(top: 50, right: 30, left: 30),
+            padding: const EdgeInsets.only(top: 35, right: 30, left: 30),
             child: TextField(
                 controller: passwordController,
                 obscureText: _hidePassword,
@@ -99,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           .none, /* borderRadius: BorderRadius.circular(25) */
                     )))),
         Padding(
-            padding: const EdgeInsets.only(top: 40, left: 40, right: 40),
+            padding: const EdgeInsets.only(top: 35, left: 40, right: 40),
             child: InkWell(
               onTap: () {
                 _Login();
@@ -142,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
             left: 10,
             right: 10,
             bottom: 0,
-            top: 100,
+            top: 0,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -174,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 50),
+                padding: const EdgeInsets.only(bottom: 0),
                 child: googleSignInButton(),
               )
             ],
@@ -210,13 +214,12 @@ class _LoginScreenState extends State<LoginScreen> {
           padding:
               const EdgeInsets.only(left: 14, right: 14, top: 8, bottom: 8),
           child: Row(
-            children: const [
-              ImageIcon(
-                AssetImage('assets/Icons/google .png'),
-                color: secondaryCAlt,
-                size: 45,
+            children: [
+              Image.asset(
+                'assets/Icons/google .png',
+                height: 45,
               ),
-              Padding(
+              const Padding(
                   padding: EdgeInsets.only(left: 15),
                   child: Text('Continue with Google',
                       style: TextStyle(

@@ -24,14 +24,16 @@ class AuthenticationMeth {
         //user unique id
         print(cred.user!.uid);
 
+        // ignore: non_constant_identifier_names
         String PPurl = await StorageMeth().storeImage('prof_pics', file, false);
         final user = modelUser.UserModel(
-            email: email,
-            followers: [],
-            following: [],
-            userName: username,
-            userID: cred.user!.uid,
-            imageURL: PPurl);
+          email: email,
+          followers: [],
+          following: [],
+          userName: username,
+          userID: cred.user!.uid,
+          imageURL: PPurl,
+        );
         print('profile pic uploaded');
 
         await _firestore
