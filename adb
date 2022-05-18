@@ -1,0 +1,1 @@
+/home/shidadi/Documents/Android/platform-tools/adb/bin/adb

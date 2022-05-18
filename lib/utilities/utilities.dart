@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 
 //colors
 const mainC = Color(0xff000000);
@@ -9,6 +10,10 @@ const secondaryC = Color(0xffABB6BF);
 const secondaryCdark = Color(0xff727070);
 const secondaryCAlt = Color(0xff020303);
 const actionC = Color(0xffFCA311);
+const actionCDark = Color(0xff8D5801);
+
+//loading animation
+final Widget loadingAnim = Lottie.asset('assets/LoadingLottie.json');
 
 //network images
 const defaultProfilePic =

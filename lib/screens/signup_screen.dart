@@ -1,10 +1,12 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:bunhub_app/screens/upload_pp_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_icons/line_icons.dart';
 import '../authentication/authentication_methods.dart';
-import '../resources/bunhub_logo_animation.dart';
 import '../utilities/utilities.dart';
 import 'package:username_generator/username_generator.dart';
 import '../widgets/text_field.dart';
@@ -17,11 +19,14 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _firestore = FirebaseFirestore.instance;
+
   bool _isLoading = false;
   bool _hidePassword = true;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
+  String? UUID;
   Uint8List? _image;
 
   @override
@@ -32,36 +37,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
     usernameController.dispose();
   }
 
-  void chooseImage() async {
+  /* void chooseImage() async {
     Uint8List image = await pickImage(ImageSource.gallery);
     setState(() {
       _image = image;
     });
-  }
+  } */
 
   void _signUp() async {
     setState(() {
       _isLoading = true;
     });
-    await AuthenticationMeth().signUp(
+    String UUID = await AuthenticationMeth().signUp(
       emailController.text.replaceAll(' ', ''),
       passwordController.text.replaceAll(' ', ''),
       usernameController.text.replaceAll(' ', ''),
       context,
-      _image,
     );
     setState(() {
       _isLoading = false;
     });
+
+    setState(() {});
   }
 
   void _generateUsername() {
+    var generator = UsernameGenerator();
+    generator.separator = '';
     setState(() {
       usernameController.clear();
-      var usernameGenerator = UsernameGenerator();
-      usernameGenerator.separator = '';
+      usernameController.text = generator.generateRandom();
     });
   }
+
+  /* void usernameCheck(String username, String UUID) {} */
 
   void _togglevisibility() {
     setState(() {
@@ -186,7 +195,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
         Padding(
             padding: const EdgeInsets.only(top: 35, right: 30, left: 30),
             child: InkWell(
-              onTap: _signUp,
+              onTap: () {
+                setState(() {
+                  _isLoading = true;
+                });
+                /*  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UploadProfilePicScreen(
+                              email: emailController.text.replaceAll(' ', ''),
+                              password:
+                                  passwordController.text.replaceAll(' ', ''),
+                              username:
+                                  usernameController.text.replaceAll(' ', ''),
+                            ))); */
+                _signUp();
+                setState(() {
+                  _isLoading = false;
+                });
+              },
               child: Container(
                   decoration: const BoxDecoration(
                       color: secondaryC,

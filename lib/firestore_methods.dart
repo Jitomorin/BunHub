@@ -47,8 +47,8 @@ class FirestoreMeth {
     
   } */
 
-  Future<void> post(
-      String caption, String profilePicURL, String username) async {
+  Future<void> post(String caption, String profilePicURL, String username,
+      String UUID) async {
     try {
       String postUID = const Uuid().v1();
 
@@ -58,7 +58,8 @@ class FirestoreMeth {
           postUID: postUID,
           profilePicURL: profilePicURL,
           username: username,
-          datePublished: DateTime.now());
+          datePublished: DateTime.now(),
+          UUID: '');
 
       _firestore.collection('posts').doc(postUID).set(post.toJson());
     } catch (e) {
@@ -71,6 +72,7 @@ class FirestoreMeth {
     Uint8List file,
     String profilePicURL,
     String username,
+    String UUID,
   ) async {
     try {
       //random unique ID based on time lne of code is called
@@ -80,6 +82,7 @@ class FirestoreMeth {
 
       //post model to hold data
       PostModel post = PostModel(
+          UUID: UUID,
           imagePostURL: photoURL,
           likes: [],
           caption: caption,
@@ -87,7 +90,7 @@ class FirestoreMeth {
           profilePicURL: profilePicURL,
           username: username,
           datePublished: DateTime.now());
-      _firestore.collection('post').doc(postUID).set(post.toJson());
+      _firestore.collection('posts').doc(postUID).set(post.toJson());
     } catch (e) {
       print(e);
     }

@@ -11,28 +11,42 @@ class AuthenticationMeth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
 
-  Future<String> signUp(email, password, username, context, file) async {
+  Future<void> addProfilePic(username, email, password, profilePicLink) async {
+    UserCredential cred = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+
+    final user = modelUser.UserModel(
+      email: email,
+      followers: [],
+      following: [],
+      userName: username,
+      userID: cred.user!.uid,
+      imageURL: profilePicLink,
+    );
+
+    await _firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
+  }
+
+  Future<String> signUp(email, password, username, context) async {
     String result = '';
     try {
-      if (email.isNotEmpty ||
-          password.isNotEmpty ||
-          username.isNotEmpty ||
-          file != null) {
+      if (email.isNotEmpty || password.isNotEmpty || username.isNotEmpty) {
         UserCredential cred = await _firebaseAuth
             .createUserWithEmailAndPassword(email: email, password: password);
 
         //user unique id
         print(cred.user!.uid);
+        result = cred.user!.uid;
 
         // ignore: non_constant_identifier_names
-        String PPurl = await StorageMeth().storeImage('prof_pics', file, false);
+        /* String PPurl = await StorageMeth().storeImage('prof_pics', file, false); */
         final user = modelUser.UserModel(
           email: email,
           followers: [],
           following: [],
           userName: username,
           userID: cred.user!.uid,
-          imageURL: PPurl,
+          /* imageURL: PPurl, */
         );
         print('profile pic uploaded');
 

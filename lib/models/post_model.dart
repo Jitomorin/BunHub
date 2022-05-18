@@ -5,6 +5,7 @@ class PostModel {
   final List likes;
 
   final String caption;
+  final String UUID;
   final String? imagePostURL;
   final String postUID;
   final String profilePicURL;
@@ -14,6 +15,7 @@ class PostModel {
   PostModel(
       {required this.likes,
       required this.caption,
+      required this.UUID,
       this.imagePostURL,
       required this.postUID,
       required this.profilePicURL,
@@ -24,6 +26,7 @@ class PostModel {
     if (imagePostURL != null) {
       return {
         'likes': likes,
+        'UUID': UUID,
         'caption': caption,
         'imagePostURL': imagePostURL,
         'postUID': postUID,
@@ -46,11 +49,25 @@ class PostModel {
   static PostModel? fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
+    if (snapshot['imagePostURL'] == null) {
+      return PostModel(
+        likes: snapshot['likes'],
+        caption: snapshot['caption'],
+        UUID: snapshot['UUID'],
+        postUID: snapshot['postUID'],
+        profilePicURL: snapshot['profilePicURL'],
+        username: snapshot['username'],
+        datePublished: snapshot['datePublished'],
+      );
+    }
+
     return PostModel(
       likes: snapshot['likes'],
       caption: snapshot['caption'],
+      UUID: snapshot['UUID'],
       postUID: snapshot['postUID'],
       profilePicURL: snapshot['profilePicURL'],
+      imagePostURL: snapshot['imagePostURL'],
       username: snapshot['username'],
       datePublished: snapshot['datePublished'],
     );

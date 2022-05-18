@@ -88,6 +88,7 @@ class _MobileLayoutState extends State<MobileLayout> {
             ),
           ),
           FlashyTabBarItem(
+            activeColor: actionC,
             icon: const Icon(LineIcons.user, color: secondaryCdark),
             title: const Text(
               'Profile',
